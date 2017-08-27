@@ -1,8 +1,9 @@
 package com.github.doubledeath.android.mvvm
 
 import android.databinding.BaseObservable
+import android.support.annotation.CallSuper
 
-open class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObservable() {
+abstract class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObservable() {
 
     private var isViewAttached: Boolean = false
 
@@ -18,20 +19,24 @@ open class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObserva
         }
     }
 
+    @CallSuper
     fun onCreate() {
 
     }
 
+    @CallSuper
     fun onAttachView(view: V) {
         isViewAttached = true
 
         notifyChange()
     }
 
+    @CallSuper
     fun onDetachView(view: V) {
         isViewAttached = false
     }
 
+    @CallSuper
     fun onDestroy() {
         MvvmFacade.instance.removeViewModel(tag)
     }

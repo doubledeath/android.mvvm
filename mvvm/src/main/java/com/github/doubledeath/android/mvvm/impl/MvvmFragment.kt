@@ -6,9 +6,7 @@ import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.MvvmView
 import com.github.doubledeath.android.mvvm.MvvmViewModel
 
-/**
- * Created by doubledeath on 8/26/17.
- */
+@Suppress("UNUSED")
 abstract class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragment(), MvvmView {
 
     private var viewModel: VM? = null

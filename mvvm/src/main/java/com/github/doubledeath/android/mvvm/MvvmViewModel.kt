@@ -2,9 +2,6 @@ package com.github.doubledeath.android.mvvm
 
 import android.databinding.BaseObservable
 
-/**
- * Created by doubledeath on 8/27/17.
- */
 open class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObservable() {
 
     private var isViewAttached: Boolean = false

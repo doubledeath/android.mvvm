@@ -1,8 +1,5 @@
 package com.github.doubledeath.android.mvvm
 
-/**
- * Created by doubledeath on 8/26/17.
- */
 class MvvmFacade private constructor() {
 
     private object Holder {
@@ -20,6 +17,7 @@ class MvvmFacade private constructor() {
         viewModelMap = HashMap()
     }
 
+    @Suppress("UNUSED")
     fun setViewModelFactory(viewModelFactory: MvvmViewModelFactory) {
         this.viewModelFactory = viewModelFactory
     }

@@ -6,9 +6,7 @@ import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.MvvmView
 import com.github.doubledeath.android.mvvm.MvvmViewModel
 
-/**
- * Created by doubledeath on 8/26/17.
- */
+@Suppress("UNUSED")
 abstract class MvvmActivity<in V : MvvmView, out VM : MvvmViewModel<V>> : AppCompatActivity(), MvvmView {
 
     private var viewModel: VM? = null

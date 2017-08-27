@@ -1,3 +1,5 @@
+# android.mvvm
+Simple implementation of MVVM pattern using android data binding.
 ## License
 ```
 MIT License

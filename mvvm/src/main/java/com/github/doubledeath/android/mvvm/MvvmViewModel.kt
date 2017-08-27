@@ -20,24 +20,24 @@ abstract class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObs
     }
 
     @CallSuper
-    fun onCreate() {
+    open fun onCreate() {
 
     }
 
     @CallSuper
-    fun onAttachView(view: V) {
+    open fun onAttachView(view: V) {
         isViewAttached = true
 
         notifyChange()
     }
 
     @CallSuper
-    fun onDetachView(view: V) {
+    open fun onDetachView(view: V) {
         isViewAttached = false
     }
 
     @CallSuper
-    fun onDestroy() {
+    open fun onDestroy() {
         MvvmFacade.instance.removeViewModel(tag)
     }
 

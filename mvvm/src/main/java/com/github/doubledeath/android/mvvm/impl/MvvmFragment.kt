@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.MvvmView
 import com.github.doubledeath.android.mvvm.MvvmViewModel
+import com.github.doubledeath.android.mvvm.getTagForActivity
 
 @Suppress("UNUSED")
 abstract class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragment(), MvvmView {
@@ -40,18 +41,13 @@ abstract class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragme
     }
 
     protected fun getViewModel(): VM {
-        val viewModel: VM = this.viewModel ?: MvvmFacade.instance.getViewModel(tag)
+        val viewModel: VM = this.viewModel ?: MvvmFacade.instance.getViewModel(this::class.getTagForActivity())
 
         if (this.viewModel === null) {
             this.viewModel = viewModel
         }
 
         return viewModel
-    }
-
-    companion object {
-        var tag: String = this::class.toString()
-            private set
     }
 
 }

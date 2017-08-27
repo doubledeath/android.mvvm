@@ -9,7 +9,7 @@ import com.github.doubledeath.android.mvvm.MvvmViewModel
 /**
  * Created by doubledeath on 8/26/17.
  */
-open class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragment(), MvvmView {
+abstract class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragment(), MvvmView {
 
     private var viewModel: VM? = null
 

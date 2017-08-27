@@ -9,7 +9,7 @@ import com.github.doubledeath.android.mvvm.MvvmViewModel
 /**
  * Created by doubledeath on 8/26/17.
  */
-open class MvvmActivity<in V : MvvmView, out VM : MvvmViewModel<V>> : AppCompatActivity(), MvvmView {
+abstract class MvvmActivity<in V : MvvmView, out VM : MvvmViewModel<V>> : AppCompatActivity(), MvvmView {
 
     private var viewModel: VM? = null
 

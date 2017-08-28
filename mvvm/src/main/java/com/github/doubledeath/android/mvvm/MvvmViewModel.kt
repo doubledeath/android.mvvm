@@ -3,42 +3,37 @@ package com.github.doubledeath.android.mvvm
 import android.databinding.BaseObservable
 import android.support.annotation.CallSuper
 
-abstract class MvvmViewModel<in V : MvvmView>(private var tag: String) : BaseObservable() {
+abstract class MvvmViewModel<in V : MvvmView> : BaseObservable() {
 
-    private var isViewAttached: Boolean = false
+    protected var isViewActive: Boolean = false
+        private set
 
     override fun notifyChange() {
-        if (isViewAttached) {
+        if (isViewActive) {
             super.notifyChange()
         }
     }
 
     override fun notifyPropertyChanged(fieldId: Int) {
-        if (isViewAttached) {
+        if (isViewActive) {
             super.notifyPropertyChanged(fieldId)
         }
     }
 
     @CallSuper
-    open fun onCreate() {
+    open fun onViewActive(view: V) {
+        if (!isViewActive) {
+            isViewActive = true
 
+            notifyChange()
+        }
     }
 
     @CallSuper
-    open fun onAttachView(view: V) {
-        isViewAttached = true
-
-        notifyChange()
-    }
-
-    @CallSuper
-    open fun onDetachView(view: V) {
-        isViewAttached = false
-    }
-
-    @CallSuper
-    open fun onDestroy() {
-        MvvmFacade.instance.removeViewModel(tag)
+    open fun onViewInactive(view: V) {
+        if (isViewActive) {
+            isViewActive = false
+        }
     }
 
 }

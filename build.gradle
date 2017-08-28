@@ -27,8 +27,8 @@ allprojects {
         buildToolsVersion = "26.0.1"
         minSdkVersion = 16
         targetSdkVersion = compileSdkVersion
-        versionCode = 6
-        versionName = "0.1.5"
+        versionCode = 7
+        versionName = "0.2.0"
         androidSupportVersion = buildToolsVersion
     }
 }

@@ -1,5 +1,7 @@
 package com.github.doubledeath.android.mvvm
 
+import kotlin.reflect.KClass
+
 class MvvmFacade private constructor() {
 
     private object Holder {
@@ -23,22 +25,22 @@ class MvvmFacade private constructor() {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <V : MvvmView, VM : MvvmViewModel<V>> getViewModel(viewModelTag: String): VM {
+    internal fun <V : MvvmView, VM : MvvmViewModel<V>> getViewModel(klass: KClass<*>, tag: String): VM {
         val viewModel: MvvmViewModel<*>
 
-        if (viewModelMap.contains(viewModelTag)) {
-            viewModel = viewModelMap.getValue(viewModelTag)
+        if (viewModelMap.contains(tag)) {
+            viewModel = viewModelMap.getValue(tag)
         } else {
-            viewModel = viewModelFactory.createViewModel(viewModelTag)
+            viewModel = viewModelFactory.createViewModel(klass as KClass<V>)
 
-            viewModelMap[viewModelTag] = viewModel
+            viewModelMap[tag] = viewModel
         }
 
         return viewModel as VM
     }
 
-    fun removeViewModel(viewModelTag: String) {
-        viewModelMap.remove(viewModelTag)
+    internal fun removeViewModel(tag: String) {
+        viewModelMap.remove(tag)
     }
 
 }

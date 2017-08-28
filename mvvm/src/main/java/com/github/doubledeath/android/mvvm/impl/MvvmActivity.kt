@@ -2,49 +2,63 @@ package com.github.doubledeath.android.mvvm.impl
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.github.doubledeath.android.mvvm.*
+import com.github.doubledeath.android.mvvm.MvvmDelegate
+import com.github.doubledeath.android.mvvm.MvvmView
+import com.github.doubledeath.android.mvvm.MvvmViewModel
 
 @Suppress("UNUSED")
 abstract class MvvmActivity<in V : MvvmView, out VM : MvvmViewModel<V>> : AppCompatActivity(), MvvmView {
 
-    private var viewModel: VM? = null
+    private var mvvmDelegate: MvvmDelegate<V, VM>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getViewModel().onCreate()
+        getMvvmDelegate().onCreate(savedInstanceState)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onResume() {
         super.onResume()
 
-        getViewModel().onAttachView(this as V)
+        getMvvmDelegate().onViewActive(this as V)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        getMvvmDelegate().onSaveInstanceState(outState)
+        getMvvmDelegate().onViewInactive(this as V)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onPause() {
-        getViewModel().onDetachView(this as V)
+        getMvvmDelegate().onViewInactive(this as V)
 
         super.onPause()
     }
 
     override fun onDestroy() {
         if (isFinishing) {
-            getViewModel().onDestroy()
+            getMvvmDelegate().onDestroy()
         }
 
         super.onDestroy()
     }
 
     protected fun getViewModel(): VM {
-        val viewModel: VM = this.viewModel ?: MvvmFacade.instance.getViewModel(this::class.getTagForActivity())
+        return getMvvmDelegate().getViewModel()
+    }
 
-        if (this.viewModel === null) {
-            this.viewModel = viewModel
+    private fun getMvvmDelegate(): MvvmDelegate<V, VM> {
+        val mvvmDelegate: MvvmDelegate<V, VM> = this.mvvmDelegate ?: MvvmDelegate(this::class)
+
+        if (this.mvvmDelegate === null) {
+            this.mvvmDelegate = mvvmDelegate
         }
 
-        return viewModel
+        return mvvmDelegate
     }
 
 }

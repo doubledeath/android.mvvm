@@ -1,7 +1,9 @@
 package com.github.doubledeath.android.mvvm
 
+import kotlin.reflect.KClass
+
 interface MvvmViewModelFactory {
 
-    fun createViewModel(viewModelTag: String): MvvmViewModel<*>
+    fun <V : MvvmView> createViewModel(klass: KClass<V>): MvvmViewModel<*>
 
 }

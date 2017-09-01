@@ -1,4 +1,4 @@
-package com.github.doubledeath.android.mvvm.impl
+package com.github.doubledeath.android.mvvm.base
 
 import android.app.Fragment
 import android.os.Bundle
@@ -17,30 +17,27 @@ abstract class MvvmFragment<in V : MvvmView, out VM : MvvmViewModel<V>> : Fragme
         getMvvmDelegate().onCreate(savedInstanceState)
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onResume() {
         super.onResume()
 
-        getMvvmDelegate().onViewActive(this as V)
+        getMvvmDelegate().onViewActive()
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
         getMvvmDelegate().onSaveInstanceState(outState)
-        getMvvmDelegate().onViewInactive(this as V)
+        getMvvmDelegate().onViewInactive()
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onPause() {
-        getMvvmDelegate().onViewInactive(this as V)
+        getMvvmDelegate().onViewInactive()
 
         super.onPause()
     }
 
     override fun onDestroy() {
-        if (isRemoving) {
+        if (isRemoving || activity.isFinishing) {
             getMvvmDelegate().onDestroy()
         }
 

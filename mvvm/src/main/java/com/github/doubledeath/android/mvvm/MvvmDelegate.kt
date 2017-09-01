@@ -15,16 +15,16 @@ internal class MvvmDelegate<in V : MvvmView, out VM : MvvmViewModel<V>> construc
         tag = savedInstanceState?.getString(KEY_TAG) ?: generateTag()
     }
 
-    internal fun onViewActive(view: V) {
-        getViewModel().onViewActive(view)
+    internal fun onViewActive() {
+        getViewModel().onViewActive()
     }
 
     internal fun onSaveInstanceState(outState: Bundle?) {
         outState?.putString(KEY_TAG, tag)
     }
 
-    internal fun onViewInactive(view: V) {
-        getViewModel().onViewInactive(view)
+    internal fun onViewInactive() {
+        getViewModel().onViewInactive()
     }
 
     internal fun onDestroy() {

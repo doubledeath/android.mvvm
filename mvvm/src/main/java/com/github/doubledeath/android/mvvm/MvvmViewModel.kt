@@ -3,6 +3,7 @@ package com.github.doubledeath.android.mvvm
 import android.databinding.BaseObservable
 import android.support.annotation.CallSuper
 
+@Suppress("UNUSED")
 abstract class MvvmViewModel<in V : MvvmView> : BaseObservable() {
 
     protected var isViewActive: Boolean = false
@@ -21,7 +22,7 @@ abstract class MvvmViewModel<in V : MvvmView> : BaseObservable() {
     }
 
     @CallSuper
-    open fun onViewActive(view: V) {
+    open fun onViewActive() {
         if (!isViewActive) {
             isViewActive = true
 
@@ -30,7 +31,7 @@ abstract class MvvmViewModel<in V : MvvmView> : BaseObservable() {
     }
 
     @CallSuper
-    open fun onViewInactive(view: V) {
+    open fun onViewInactive() {
         if (isViewActive) {
             isViewActive = false
         }

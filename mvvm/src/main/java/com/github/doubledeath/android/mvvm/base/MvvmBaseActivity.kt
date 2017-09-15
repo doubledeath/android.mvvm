@@ -7,10 +7,10 @@ import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import com.github.doubledeath.android.mvvm.MvvmApp
 import com.github.doubledeath.android.mvvm.MvvmView
-import com.github.doubledeath.android.mvvm.MvvmViewModel
 import com.github.doubledeath.android.mvvm.impl.MvvmActivityDelegate
+import com.github.doubledeath.android.mvvm.impl.MvvmActivityViewModel
 
-abstract class MvvmBaseActivity<VM : MvvmViewModel, B : ViewDataBinding> : AppCompatActivity(), MvvmView {
+abstract class MvvmBaseActivity<VM : MvvmActivityViewModel, B : ViewDataBinding> : AppCompatActivity(), MvvmView {
 
     abstract val providedLayoutId: Int @LayoutRes get
     abstract val providedViewModelId: Int @IdRes get

@@ -3,10 +3,9 @@ package com.github.doubledeath.android.mvvm.base
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import com.github.doubledeath.android.mvvm.MvvmFacade
-import com.github.doubledeath.android.mvvm.MvvmViewModel
 import kotlin.reflect.KClass
 
-internal abstract class MvvmBaseDelegate<out VM : MvvmViewModel, out B : ViewDataBinding, out C>
+internal abstract class MvvmBaseDelegate<out VM : MvvmBaseViewModel, out B : ViewDataBinding, out C>
 constructor(private val klass: KClass<VM>,
             private val navigator: MvvmBaseNavigator<C>) {
 

@@ -2,41 +2,43 @@ package com.github.doubledeath.android.mvvm.base
 
 import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.MvvmView
-import com.github.doubledeath.android.mvvm.MvvmViewModel
 import kotlin.reflect.KClass
 
-abstract class MvvmBaseNavigator<C> {
+internal abstract class MvvmBaseNavigator<C> {
 
     internal val pool = Pool()
 
-    fun navigate(command: Command) {
+    internal fun navigate(command: Command) {
         val context = pool.searchContext(command.tag)
         val klass = MvvmFacade.viewMapper.viewModelToView(command.klass)
         val tag = MvvmFacade.tagGenerator.generateTag(command.klass)
 
         pool.provideViewModel(tag, command.klass)
 
-        if (context !== null) {
-            navigateView(context, klass, tag)
-        }
+        context?.let { navigateView(it, klass, tag) }
+    }
+
+    internal fun navigateBack(tag: String) {
+        pool.searchContext(tag)?.let { navigateViewBack(it) }
     }
 
     protected abstract fun navigateView(context: C, klass: KClass<out MvvmView>, tag: String)
+    protected abstract fun navigateViewBack(context: C)
 
     class Command internal constructor(internal val tag: String,
-                                       internal val klass: KClass<out MvvmViewModel>)
+                                       internal val klass: KClass<out MvvmBaseViewModel>)
 
     internal inner class Pool {
 
         private val contextMap = HashMap<String, C>()
-        private val viewModelMap = HashMap<String, MvvmViewModel>()
+        private val viewModelMap = HashMap<String, MvvmBaseViewModel>()
 
         internal fun putContext(tag: String, context: C) {
             contextMap[tag] = context
         }
 
-        internal fun provideViewModel(tag: String, klass: KClass<out MvvmViewModel>): MvvmViewModel {
-            val viewModel: MvvmViewModel
+        internal fun provideViewModel(tag: String, klass: KClass<out MvvmBaseViewModel>): MvvmBaseViewModel {
+            val viewModel: MvvmBaseViewModel
 
             if (viewModelMap.containsKey(tag)) {
                 viewModel = viewModelMap.getValue(tag)

@@ -1,12 +1,11 @@
-package com.github.doubledeath.android.mvvm
+package com.github.doubledeath.android.mvvm.base
 
 import android.databinding.BaseObservable
 import android.support.annotation.CallSuper
-import com.github.doubledeath.android.mvvm.base.MvvmBaseNavigator
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
 
-abstract class MvvmViewModel : BaseObservable() {
+abstract class MvvmBaseViewModel : BaseObservable() {
 
     internal lateinit var tag: String
     internal lateinit var navigator: MvvmBaseNavigator<*>
@@ -26,9 +25,13 @@ abstract class MvvmViewModel : BaseObservable() {
         }
     }
 
-    @Suppress("UNUSED")
-    protected fun navigateTo(klass: KClass<out MvvmViewModel>) {
+    internal fun unsafeNavigateTo(klass: KClass<out MvvmBaseViewModel>) {
         navigator.navigate(MvvmBaseNavigator.Command(tag, klass))
+    }
+
+    @Suppress("UNUSED")
+    protected fun navigateBack() {
+        navigator.navigateBack(tag)
     }
 
     internal fun onViewActive() {

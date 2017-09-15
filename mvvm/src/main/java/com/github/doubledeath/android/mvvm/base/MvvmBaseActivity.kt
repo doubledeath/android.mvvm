@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import com.github.doubledeath.android.mvvm.MvvmApp
 import com.github.doubledeath.android.mvvm.MvvmView
 import com.github.doubledeath.android.mvvm.MvvmViewModel
-import com.github.doubledeath.android.mvvm.impl.MvvmActivityPartner
+import com.github.doubledeath.android.mvvm.impl.MvvmActivityDelegate
 
 abstract class MvvmBaseActivity<VM : MvvmViewModel, B : ViewDataBinding> : AppCompatActivity(), MvvmView {
 
@@ -18,49 +18,49 @@ abstract class MvvmBaseActivity<VM : MvvmViewModel, B : ViewDataBinding> : AppCo
         private set
     protected lateinit var binding: B
         private set
-    private var partner: MvvmActivityPartner<VM, B, MvvmBaseActivity<VM, B>>? = null
+    private var mvvmDelegate: MvvmActivityDelegate<VM, B, MvvmBaseActivity<VM, B>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        partner().onCreate(intent?.extras, savedInstanceState)
+        delegate().onCreate(intent?.extras, savedInstanceState)
 
-        viewModel = partner().viewModel()
-        binding = partner().binding()
+        viewModel = delegate().viewModel()
+        binding = delegate().binding()
     }
 
     override fun onResume() {
         super.onResume()
 
-        partner().onViewActive()
+        delegate().onViewActive()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
-        partner().onSaveInstanceState(outState)
+        delegate().onSaveInstanceState(outState)
     }
 
     override fun onPause() {
-        partner().onViewInactive()
+        delegate().onViewInactive()
 
         super.onPause()
     }
 
     override fun onDestroy() {
-        partner().onDestroy()
+        delegate().onDestroy()
 
         super.onDestroy()
     }
 
-    private fun partner(): MvvmActivityPartner<VM, B, MvvmBaseActivity<VM, B>> {
-        val partner = this.partner ?: MvvmActivityPartner(this, MvvmApp.navigator)
+    private fun delegate(): MvvmActivityDelegate<VM, B, MvvmBaseActivity<VM, B>> {
+        val delegate = mvvmDelegate ?: MvvmActivityDelegate(this, MvvmApp.navigator)
 
-        if (this.partner === null) {
-            this.partner = partner
+        if (mvvmDelegate === null) {
+            mvvmDelegate = delegate
         }
 
-        return partner
+        return delegate
     }
 
 }

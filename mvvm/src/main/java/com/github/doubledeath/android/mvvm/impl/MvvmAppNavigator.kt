@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.github.doubledeath.android.mvvm.MvvmView
 import com.github.doubledeath.android.mvvm.base.MvvmBaseNavigator
-import com.github.doubledeath.android.mvvm.base.MvvmBasePartner
+import com.github.doubledeath.android.mvvm.base.MvvmBaseDelegate
 import kotlin.reflect.KClass
 
 class MvvmAppNavigator : MvvmBaseNavigator<Context>() {
@@ -13,7 +13,7 @@ class MvvmAppNavigator : MvvmBaseNavigator<Context>() {
     override fun navigateView(context: Context, klass: KClass<out MvvmView>, tag: String) {
         val extras = Bundle()
 
-        MvvmBasePartner.applyTag(extras, tag)
+        MvvmBaseDelegate.applyTag(extras, tag)
 
         context.startActivity(Intent(context, klass.java).putExtras(extras))
     }

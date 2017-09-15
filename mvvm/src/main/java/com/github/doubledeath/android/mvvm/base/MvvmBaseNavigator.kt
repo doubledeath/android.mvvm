@@ -14,6 +14,8 @@ abstract class MvvmBaseNavigator<C> {
         val klass = MvvmFacade.viewMapper.viewModelToView(command.klass)
         val tag = MvvmFacade.tagGenerator.generateTag(command.klass)
 
+        pool.provideViewModel(tag, command.klass)
+
         if (context !== null) {
             navigateView(context, klass, tag)
         }
@@ -41,7 +43,6 @@ abstract class MvvmBaseNavigator<C> {
             } else {
                 viewModel = MvvmFacade.viewModelFactory.createViewModel(klass)
                 viewModel.tag = tag
-
                 viewModel.navigator = this@MvvmBaseNavigator
 
                 viewModelMap[tag] = viewModel

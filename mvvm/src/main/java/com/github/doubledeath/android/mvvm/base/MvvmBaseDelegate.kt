@@ -39,7 +39,9 @@ constructor(private val klass: KClass<VM>,
     }
 
     internal open fun onDestroy() {
-        navigator.pool.cleanViewModel(tag)
+        if (!MvvmFacade.viewModelSingleChecker.isViewModelSingle(klass)) {
+            navigator.pool.cleanViewModel(tag)
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

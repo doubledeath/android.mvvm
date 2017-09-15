@@ -4,6 +4,7 @@ import com.github.doubledeath.android.mvvm.impl.MvvmAppNavigator
 import com.github.doubledeath.android.mvvm.impl.MvvmTagGenerator
 import com.github.doubledeath.android.mvvm.produce.MvvmViewMapper
 import com.github.doubledeath.android.mvvm.produce.MvvmViewModelFactory
+import com.github.doubledeath.android.mvvm.produce.MvvmViewModelSingleChecker
 
 object MvvmApp {
 
@@ -11,10 +12,12 @@ object MvvmApp {
 
     @Suppress("UNUSED")
     fun initialize(viewMapper: MvvmViewMapper,
-                   viewModelFactory: MvvmViewModelFactory) {
+                   viewModelFactory: MvvmViewModelFactory,
+                   viewModelSingleChecker: MvvmViewModelSingleChecker = object : MvvmViewModelSingleChecker {}) {
         MvvmFacade.tagGenerator = MvvmTagGenerator()
         MvvmFacade.viewMapper = viewMapper
         MvvmFacade.viewModelFactory = viewModelFactory
+        MvvmFacade.viewModelSingleChecker = viewModelSingleChecker
 
         navigator = MvvmAppNavigator()
     }

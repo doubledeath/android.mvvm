@@ -1,5 +1,6 @@
 package com.github.doubledeath.android.mvvm.impl
 
+import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.base.MvvmBaseViewModel
 import java.util.*
 import kotlin.reflect.KClass
@@ -7,7 +8,11 @@ import kotlin.reflect.KClass
 internal class MvvmTagGenerator {
 
     fun generateTag(klass: KClass<out MvvmBaseViewModel>): String {
-        return UUID.randomUUID().toString()
+        return if (MvvmFacade.viewModelSingleChecker.isViewModelSingle(klass)) {
+            klass.toString()
+        } else {
+            UUID.randomUUID().toString()
+        }
     }
 
 }

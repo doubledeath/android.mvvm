@@ -5,7 +5,7 @@ import android.support.annotation.CallSuper
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
 
-abstract class MvvmBaseViewModel : BaseObservable() {
+abstract class MvvmBaseViewModel internal constructor() : BaseObservable() {
 
     internal lateinit var tag: String
     internal lateinit var navigator: MvvmBaseNavigator<*>

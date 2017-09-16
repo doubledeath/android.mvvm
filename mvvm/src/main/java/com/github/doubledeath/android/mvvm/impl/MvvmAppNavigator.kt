@@ -10,12 +10,16 @@ import kotlin.reflect.KClass
 
 internal class MvvmAppNavigator : MvvmBaseNavigator<MvvmBaseActivity<*, *>>() {
 
-    override fun navigateView(context: MvvmBaseActivity<*, *>, klass: KClass<out MvvmView>, tag: String) {
+    override fun navigateView(context: MvvmBaseActivity<*, *>, klass: KClass<out MvvmView>, tag: String, noHistory: Boolean) {
         val extras = Bundle()
 
         MvvmBaseDelegate.applyTag(extras, tag)
 
         context.startActivity(Intent(context, klass.java).putExtras(extras))
+
+        if (noHistory) {
+            context.finish()
+        }
     }
 
     override fun navigateViewBack(context: MvvmBaseActivity<*, *>) {

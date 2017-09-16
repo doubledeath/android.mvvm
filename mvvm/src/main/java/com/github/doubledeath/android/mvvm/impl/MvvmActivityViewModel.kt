@@ -6,8 +6,8 @@ import kotlin.reflect.KClass
 open class MvvmActivityViewModel : MvvmBaseViewModel() {
 
     @Suppress("UNUSED")
-    protected fun navigateTo(klass: KClass<out MvvmActivityViewModel>) {
-        super.unsafeNavigateTo(klass)
+    protected fun navigateTo(klass: KClass<out MvvmActivityViewModel>, noHistory: Boolean = false) {
+        super.unsafeNavigateTo(klass, noHistory)
     }
 
 }

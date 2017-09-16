@@ -15,18 +15,19 @@ internal abstract class MvvmBaseNavigator<C> {
 
         pool.provideViewModel(tag, command.klass)
 
-        context?.let { navigateView(it, klass, tag) }
+        context?.let { navigateView(it, klass, tag, command.noHistory) }
     }
 
     internal fun navigateBack(tag: String) {
         pool.searchContext(tag)?.let { navigateViewBack(it) }
     }
 
-    protected abstract fun navigateView(context: C, klass: KClass<out MvvmView>, tag: String)
+    protected abstract fun navigateView(context: C, klass: KClass<out MvvmView>, tag: String, noHistory: Boolean)
     protected abstract fun navigateViewBack(context: C)
 
     class Command internal constructor(internal val tag: String,
-                                       internal val klass: KClass<out MvvmBaseViewModel>)
+                                       internal val klass: KClass<out MvvmBaseViewModel>,
+                                       internal val noHistory: Boolean)
 
     internal inner class Pool {
 

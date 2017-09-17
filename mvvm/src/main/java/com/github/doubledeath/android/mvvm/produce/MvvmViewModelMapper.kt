@@ -6,8 +6,8 @@ import kotlin.reflect.KClass
 
 interface MvvmViewModelMapper {
 
-    fun viewModelToView(klass: KClass<out MvvmBaseViewModel>): KClass<out MvvmView>
-    fun viewModelToSingle(klass: KClass<out MvvmBaseViewModel>): Boolean {
+    fun toView(klass: KClass<out MvvmBaseViewModel>): KClass<out MvvmView>
+    fun toSingle(klass: KClass<out MvvmBaseViewModel>): Boolean {
         return false
     }
 

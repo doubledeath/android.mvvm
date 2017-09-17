@@ -1,16 +1,18 @@
 package com.github.doubledeath.android.mvvm.base
 
+import android.app.Fragment
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
-import com.github.doubledeath.android.mvvm.MvvmApp
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.github.doubledeath.android.mvvm.MvvmView
-import com.github.doubledeath.android.mvvm.impl.MvvmActivityDelegate
-import com.github.doubledeath.android.mvvm.impl.MvvmActivityViewModel
+import com.github.doubledeath.android.mvvm.impl.MvvmFragmentDelegate
+import com.github.doubledeath.android.mvvm.impl.MvvmFragmentViewModel
 
-abstract class MvvmBaseActivity<VM : MvvmActivityViewModel, B : ViewDataBinding> : AppCompatActivity(), MvvmView {
+abstract class MvvmBaseFragment<VM : MvvmFragmentViewModel, B : ViewDataBinding> : Fragment(), MvvmView {
 
     abstract val providedLayoutId: Int @LayoutRes get
     abstract val providedViewModelId: Int @IdRes get
@@ -18,15 +20,15 @@ abstract class MvvmBaseActivity<VM : MvvmActivityViewModel, B : ViewDataBinding>
         private set
     protected lateinit var binding: B
         private set
-    private var mvvmDelegate: MvvmActivityDelegate<VM, B, MvvmBaseActivity<VM, B>>? = null
+    private var mvvmDelegate: MvvmFragmentDelegate<VM, B, MvvmBaseFragment<VM, B>>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        delegate().onCreate(intent?.extras, savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        delegate().onCreate(arguments, savedInstanceState)
 
         viewModel = delegate().viewModel()
         binding = delegate().binding()
+
+        return binding.root
     }
 
     override fun onResume() {
@@ -53,8 +55,8 @@ abstract class MvvmBaseActivity<VM : MvvmActivityViewModel, B : ViewDataBinding>
         super.onDestroy()
     }
 
-    internal fun delegate(): MvvmActivityDelegate<VM, B, MvvmBaseActivity<VM, B>> {
-        val delegate = mvvmDelegate ?: MvvmActivityDelegate(this, MvvmApp.navigator)
+    private fun delegate(): MvvmFragmentDelegate<VM, B, MvvmBaseFragment<VM, B>> {
+        val delegate = mvvmDelegate ?: MvvmFragmentDelegate(this, (activity as MvvmBaseActivity<*, *>).delegate().selfNavigator())
 
         if (mvvmDelegate === null) {
             mvvmDelegate = delegate

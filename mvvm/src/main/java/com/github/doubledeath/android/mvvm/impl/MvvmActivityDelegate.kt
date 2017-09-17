@@ -9,14 +9,15 @@ import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 internal class MvvmActivityDelegate<VM : MvvmActivityViewModel, B : ViewDataBinding, A : MvvmBaseActivity<VM, B>>
-/*constructor*/(private val activity: A, navigator: MvvmAppNavigator) : MvvmBaseDelegate<VM, B, MvvmBaseActivity<*, *>>
-/*super.constructor*/(MvvmFacade.viewMapper.viewToViewModel(activity::class) as KClass<VM>, navigator) {
+/*constructor*/(private val activity: A,
+                navigator: MvvmAppNavigator) : MvvmBaseDelegate<VM, B, MvvmBaseActivity<*, *>>
+/*super.constructor*/(MvvmFacade.viewMapper.toViewModel(activity::class) as KClass<VM>, navigator) {
 
     private var binding: B? = null
     private var context: MvvmBaseActivity<*, *>? = null
 
     override fun binding(): B {
-        val binding = this.binding ?: DataBindingUtil.setContentView(activity, activity.providedLayoutId)
+        val binding = binding ?: DataBindingUtil.setContentView(activity, activity.providedLayoutId)
 
         if (this.binding === null) {
             binding.setVariable(activity.providedViewModelId, viewModel())
@@ -28,7 +29,7 @@ internal class MvvmActivityDelegate<VM : MvvmActivityViewModel, B : ViewDataBind
     }
 
     override fun context(): MvvmBaseActivity<*, *> {
-        val context = this.context ?: activity
+        val context = context ?: activity
 
         if (this.context === null) {
             this.context = context
@@ -37,10 +38,26 @@ internal class MvvmActivityDelegate<VM : MvvmActivityViewModel, B : ViewDataBind
         return context
     }
 
+    override fun onViewActive() {
+        selfNavigator().pool.putContext(tag, activity.fragmentManager)
+
+        super.onViewActive()
+    }
+
+    override fun onViewInactive() {
+        super.onViewInactive()
+
+        selfNavigator().pool.cleanContext(tag)
+    }
+
     override fun onDestroy() {
         if (activity.isFinishing) {
             super.onDestroy()
         }
+    }
+
+    internal fun selfNavigator(): MvvmActivityNavigator {
+        return viewModel().selfNavigator
     }
 
 }

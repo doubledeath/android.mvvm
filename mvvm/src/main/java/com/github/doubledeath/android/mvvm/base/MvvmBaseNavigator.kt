@@ -10,7 +10,7 @@ internal abstract class MvvmBaseNavigator<C> {
 
     internal fun navigate(command: Command) {
         val context = pool.searchContext(command.tag)
-        val klass = MvvmFacade.viewModelMapper.viewModelToView(command.klass)
+        val klass = MvvmFacade.viewModelMapper.toView(command.klass)
         val tag = MvvmFacade.tagGenerator.generateTag(command.klass)
 
         pool.provideViewModel(tag, command.klass)

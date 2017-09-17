@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 internal class MvvmTagGenerator {
 
     fun generateTag(klass: KClass<out MvvmBaseViewModel>): String {
-        return if (MvvmFacade.viewModelMapper.viewModelToSingle(klass)) {
+        return if (MvvmFacade.viewModelMapper.toSingle(klass)) {
             klass.toString()
         } else {
             UUID.randomUUID().toString()

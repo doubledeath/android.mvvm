@@ -9,7 +9,8 @@ internal abstract class MvvmBaseDelegate<out VM : MvvmBaseViewModel, out B : Vie
 constructor(private val klass: KClass<VM>,
             private val navigator: MvvmBaseNavigator<C>) {
 
-    private lateinit var tag: String
+    protected lateinit var tag: String
+        private set
     private var viewModel: VM? = null
 
     internal abstract fun binding(): B
@@ -22,7 +23,7 @@ constructor(private val klass: KClass<VM>,
         tag = extrasTag ?: savedInstanceStateTag ?: MvvmFacade.tagGenerator.generateTag(klass)
     }
 
-    internal fun onViewActive() {
+    internal open fun onViewActive() {
         navigator.pool.putContext(tag, context())
 
         viewModel().onViewActive()
@@ -32,21 +33,21 @@ constructor(private val klass: KClass<VM>,
         outState?.let { applyTag(it, tag) }
     }
 
-    internal fun onViewInactive() {
+    internal open fun onViewInactive() {
         viewModel().onViewInactive()
 
         navigator.pool.cleanContext(tag)
     }
 
     internal open fun onDestroy() {
-        if (!MvvmFacade.viewModelMapper.viewModelToSingle(klass)) {
+        if (!MvvmFacade.viewModelMapper.toSingle(klass)) {
             navigator.pool.cleanViewModel(tag)
         }
     }
 
     @Suppress("UNCHECKED_CAST")
     internal fun viewModel(): VM {
-        val viewModel = this.viewModel ?: navigator.pool.provideViewModel(tag, klass) as VM
+        val viewModel = viewModel ?: navigator.pool.provideViewModel(tag, klass) as VM
 
         if (this.viewModel === null) {
             this.viewModel = viewModel

@@ -13,7 +13,7 @@ object MvvmApp {
     @Suppress("UNUSED")
     fun initialize(viewMapper: MvvmViewMapper,
                    viewModelFactory: MvvmViewModelFactory,
-                   viewModelMapper: MvvmViewModelMapper = object : MvvmViewModelMapper {}) {
+                   viewModelMapper: MvvmViewModelMapper) {
         MvvmFacade.tagGenerator = MvvmTagGenerator()
         MvvmFacade.viewMapper = viewMapper
         MvvmFacade.viewModelFactory = viewModelFactory

@@ -7,6 +7,5 @@ import kotlin.reflect.KClass
 interface MvvmViewMapper {
 
     fun viewToViewModel(klass: KClass<out MvvmView>): KClass<out MvvmBaseViewModel>
-    fun viewModelToView(klass: KClass<out MvvmBaseViewModel>): KClass<out MvvmView>
 
 }

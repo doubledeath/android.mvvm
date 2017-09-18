@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.base.MvvmBaseDelegate
 import com.github.doubledeath.android.mvvm.base.MvvmBaseFragment
-import com.github.doubledeath.android.mvvm.base.MvvmBaseNavigator
 import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 internal class MvvmFragmentDelegate<VM : MvvmFragmentViewModel, B : ViewDataBinding, F : MvvmBaseFragment<VM, B>>
-/*constructor*/(private val fragment: F, navigator: MvvmBaseNavigator<FragmentManager>) : MvvmBaseDelegate<VM, B, FragmentManager>
+/*constructor*/(private val fragment: F, navigator: MvvmActivityNavigator) : MvvmBaseDelegate<VM, B, FragmentManager>
 /*super.constructor*/(MvvmFacade.viewMapper.toViewModel(fragment::class) as KClass<VM>, navigator) {
 
     private var binding: B? = null

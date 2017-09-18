@@ -9,8 +9,7 @@ import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 internal class MvvmActivityDelegate<VM : MvvmActivityViewModel, B : ViewDataBinding, A : MvvmBaseActivity<VM, B>>
-/*constructor*/(private val activity: A,
-                navigator: MvvmAppNavigator) : MvvmBaseDelegate<VM, B, MvvmBaseActivity<*, *>>
+/*constructor*/(private val activity: A, navigator: MvvmAppNavigator) : MvvmBaseDelegate<VM, B, MvvmBaseActivity<*, *>>
 /*super.constructor*/(MvvmFacade.viewMapper.toViewModel(activity::class) as KClass<VM>, navigator) {
 
     private var binding: B? = null

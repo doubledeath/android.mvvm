@@ -14,8 +14,8 @@ open class MvvmActivityViewModel : MvvmBaseViewModel() {
     }
 
     @Suppress("UNUSED")
-    protected fun display(klass: KClass<out MvvmFragmentViewModel>, noHistory: Boolean = false) {
-        selfNavigator.navigate(MvvmBaseNavigator.Command(tag, klass, noHistory))
+    protected fun display(klass: KClass<out MvvmFragmentViewModel>) {
+        selfNavigator.navigate(MvvmBaseNavigator.Command(tag, klass, true))
     }
 
 }

@@ -19,7 +19,7 @@ internal class MvvmActivityNavigator : MvvmBaseNavigator<FragmentManager>() {
 
         fragment.arguments = arguments
 
-        transaction.add(MvvmFacade.viewMapper.toContainerViewId(klass), fragment)
+        transaction.replace(MvvmFacade.viewMapper.toContainerViewId(klass), fragment)
 
         if (!noHistory) {
             transaction.addToBackStack(null)

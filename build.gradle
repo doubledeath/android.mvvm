@@ -2,7 +2,7 @@
 
 buildscript {
     ext.gradle_version = '3.0.0-beta6'
-    ext.kotlin_version = '1.1.4-3'
+    ext.kotlin_version = '1.1.50'
     ext.maven_version = '1.5'
     repositories {
         google()
@@ -27,8 +27,8 @@ allprojects {
         buildToolsVersion = '26.0.1'
         minSdkVersion = 16
         targetSdkVersion = compileSdkVersion
-        versionCode = 9
-        versionName = '0.3.1'
+        versionCode = 10
+        versionName = '0.3.2'
         androidSupportVersion = '26.1.0'
     }
 }

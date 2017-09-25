@@ -25,6 +25,11 @@ abstract class MvvmBaseViewModel internal constructor() : BaseObservable() {
         }
     }
 
+    @CallSuper
+    open fun onDestroy() {
+
+    }
+
     internal fun unsafeNavigateTo(klass: KClass<out MvvmBaseViewModel>, noHistory: Boolean) {
         navigator.navigate(MvvmBaseNavigator.Command(tag, klass, noHistory))
     }

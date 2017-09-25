@@ -25,9 +25,9 @@ internal abstract class MvvmBaseNavigator<C> {
     protected abstract fun navigateView(context: C, klass: KClass<out MvvmView>, tag: String, noHistory: Boolean)
     protected abstract fun navigateViewBack(context: C)
 
-    class Command internal constructor(internal val tag: String,
-                                       internal val klass: KClass<out MvvmBaseViewModel>,
-                                       internal val noHistory: Boolean)
+    internal class Command internal constructor(internal val tag: String,
+                                                internal val klass: KClass<out MvvmBaseViewModel>,
+                                                internal val noHistory: Boolean)
 
     internal inner class Pool {
 

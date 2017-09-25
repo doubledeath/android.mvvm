@@ -41,6 +41,8 @@ constructor(private val klass: KClass<VM>,
 
     internal open fun onDestroy() {
         if (!MvvmFacade.viewModelMapper.toSingle(klass)) {
+            viewModel().onDestroy()
+
             navigator.pool.cleanViewModel(tag)
         }
     }

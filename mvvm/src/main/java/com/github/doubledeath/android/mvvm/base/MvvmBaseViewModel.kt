@@ -1,6 +1,7 @@
 package com.github.doubledeath.android.mvvm.base
 
 import android.databinding.BaseObservable
+import android.os.Bundle
 import android.support.annotation.CallSuper
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
@@ -30,8 +31,8 @@ abstract class MvvmBaseViewModel internal constructor() : BaseObservable() {
 
     }
 
-    internal fun unsafeNavigateTo(klass: KClass<out MvvmBaseViewModel>, noHistory: Boolean) {
-        navigator.navigate(MvvmBaseNavigator.Command(tag, klass, noHistory))
+    internal fun unsafeNavigateTo(klass: KClass<out MvvmBaseViewModel>, args: Bundle?, noHistory: Boolean) {
+        navigator.navigate(MvvmBaseNavigator.Command(tag, klass, args, noHistory))
     }
 
     @Suppress("UNUSED")

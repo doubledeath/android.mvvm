@@ -1,5 +1,6 @@
 package com.github.doubledeath.android.mvvm.base
 
+import android.os.Bundle
 import com.github.doubledeath.android.mvvm.MvvmFacade
 import com.github.doubledeath.android.mvvm.MvvmView
 import kotlin.reflect.KClass
@@ -13,7 +14,7 @@ internal abstract class MvvmBaseNavigator<C> {
         val klass = MvvmFacade.viewModelMapper.toView(command.klass)
         val tag = MvvmFacade.tagGenerator.generateTag(command.klass)
 
-        pool.provideViewModel(tag, command.klass)
+        pool.provideViewModel(tag, command.klass, command.args)
 
         context?.let { navigateView(it, klass, tag, command.noHistory) }
     }
@@ -27,6 +28,7 @@ internal abstract class MvvmBaseNavigator<C> {
 
     internal class Command internal constructor(internal val tag: String,
                                                 internal val klass: KClass<out MvvmBaseViewModel>,
+                                                internal val args: Bundle?,
                                                 internal val noHistory: Boolean)
 
     internal inner class Pool {
@@ -38,13 +40,13 @@ internal abstract class MvvmBaseNavigator<C> {
             contextMap[tag] = context
         }
 
-        internal fun provideViewModel(tag: String, klass: KClass<out MvvmBaseViewModel>): MvvmBaseViewModel {
+        internal fun provideViewModel(tag: String, klass: KClass<out MvvmBaseViewModel>, args: Bundle?): MvvmBaseViewModel {
             val viewModel: MvvmBaseViewModel
 
             if (viewModelMap.containsKey(tag)) {
                 viewModel = viewModelMap.getValue(tag)
             } else {
-                viewModel = MvvmFacade.viewModelFactory.createViewModel(klass)
+                viewModel = MvvmFacade.viewModelFactory.createViewModel(klass, args)
                 viewModel.tag = tag
                 viewModel.navigator = this@MvvmBaseNavigator
 

@@ -49,7 +49,7 @@ constructor(private val klass: KClass<VM>,
 
     @Suppress("UNCHECKED_CAST")
     internal fun viewModel(): VM {
-        val viewModel = viewModel ?: navigator.pool.provideViewModel(tag, klass) as VM
+        val viewModel = viewModel ?: navigator.pool.provideViewModel(tag, klass, null) as VM
 
         if (this.viewModel === null) {
             this.viewModel = viewModel
